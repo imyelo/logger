@@ -1,10 +1,14 @@
 {
   "name": "myseat-logger",
   "author": "yelo",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "moment": "~2.5.1",
     "lodash": "~2.4.1",
     "mkdirp": "~0.3.5"
+  },
+  "devDependencies": {
+    "chai": "~1.9.0",
+    "muk": "~0.3.1"
   }
 }

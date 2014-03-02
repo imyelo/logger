@@ -1,6 +1,6 @@
-logger
+myseat-logger
 ======
-a node.js logger module for internal system
+a chainable node.js logger module for internal system
 
 ## Install
 ````
@@ -8,24 +8,36 @@ npm install myseat-logger
 ````
 
 ## Example
-simple:
+### simple
+code:
 ````
 var Logger = require('myseat-logger').Logger;
 Logger().to(25).interface('/internal').param('uid=1&keyword=foobar').message('well').done();
 ````
+output:
+````
+{"@source":"192.168.1.101","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/internal","@param":"uid=1&keyword=foobar"},"@message":"well","@timestamp":"2014-03-03T12:48:19+08:00"}
+````
 
-config:
+## Config
+call ``require('myseat-logger').config`` when you are launching the app.
 ````
 var log = require('myseat-logger');
-var Logger = log.Logger;
 log.config({
   filePath: '/path/to/file.log',
   device: 'myNewApp'
 });
-Logger().to(25).interface('/internal').param('uid=1&keyword=foobar').message('well').done();
 ````
+### config.filePath
+the logs will be sent to this file
+
+### config.device
+it is the current device name, which is the default value for ``to``/``from``
 
 ## API
+### Logger
+todo
+### LogFile
 todo
 
 ## License
