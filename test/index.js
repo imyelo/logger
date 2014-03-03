@@ -41,10 +41,14 @@ describe('base', function () {
         "@fields": {
           "fromtype": "myApp",
           "totype": 25,
-          "interface": "/interface"
+          "interface": "/interface",
+          "param": "foo=bar&abc=baz"
         },
       };
-      var result = Logger().to(25).interface('/interface').done();
+      var result = Logger().to(25).interface('/interface').param({
+        foo: 'bar',
+        abc: 'baz'
+      }).done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
     });
