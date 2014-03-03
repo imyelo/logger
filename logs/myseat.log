@@ -1,3 +1,17 @@
 {"@source":"192.168.1.101","@fields":{"fromType":"myApp","toType":"myApp","@fromtype":"invalid","@interface":"./interface","@param":"param=val"},"other":"this is a test","@errType":"simple","@timestamp":"2014-03-03T12:48:19+08:00"}
 {"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"wechat"},"@timestamp":"2014-03-03T12:48:19+08:00"}
 {"@source":"192.168.1.101","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/internal","@param":"uid=1&keyword=foobar"},"@message":"well","@timestamp":"2014-03-03T12:48:19+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@fromtype":"invalid","@interface":"./interface","@param":"param=val"},"other":"this is a test","@errType":"simple","@timestamp":"2014-03-03T09:34:38+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"wechat"},"@timestamp":"2014-03-03T09:34:38+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/internal","@param":"uid=1&keyword=foobar"},"@message":"well","@timestamp":"2014-03-03T09:34:38+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@fromtype":"invalid","@interface":"./interface","@param":"param=val"},"other":"this is a test","@errType":"simple","@timestamp":"2014-03-03T09:38:05+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"wechat"},"@timestamp":"2014-03-03T09:38:05+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/internal","@param":"uid=1&keyword=foobar"},"@message":"well","@timestamp":"2014-03-03T09:38:05+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@fromtype":"invalid","@interface":"./interface","@param":"param=val"},"other":"this is a test","@errType":"simple","@timestamp":"2014-03-03T09:38:07+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"wechat"},"@timestamp":"2014-03-03T09:38:07+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/internal","@param":"uid=1&keyword=foobar"},"@message":"well","@timestamp":"2014-03-03T09:38:07+08:00"}
+{"@source":"192.168.999.999","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/interface"},"@timestamp":"2014-03-03T09:37:34+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@fromtype":"invalid","@interface":"./interface","@param":"param=val"},"other":"this is a test","@errType":"simple","@timestamp":"2014-03-03T09:39:21+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"wechat"},"@timestamp":"2014-03-03T09:39:21+08:00"}
+{"@source":"192.168.0.32","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/internal","@param":"uid=1&keyword=foobar"},"@message":"well","@timestamp":"2014-03-03T09:39:21+08:00"}
+{"@source":"192.168.999.999","@fields":{"fromType":"myApp","toType":"myApp","@totype":25,"@interface":"/interface"},"@timestamp":"2014-03-03T09:37:34+08:00"}
