@@ -32,7 +32,22 @@ describe('base', function () {
     after(function () {
       muk.restore();
     });
-    it('1', function () {
+    it('mini', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "myApp",
+          "totype": "myApp"
+        },
+      };
+      var result = Logger().done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('with to, interface, param', function () {
       var Logger = log.Logger;
       var dir = path.join(__dirname, '../lib/log/production.log');
       var content = {
@@ -49,6 +64,44 @@ describe('base', function () {
         foo: 'bar',
         abc: 'baz'
       }).done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('with string param', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "myApp",
+          "totype": "25",
+          "interface": "/interface",
+          "param": "check: it out"
+        },
+      };
+      var result = Logger().to(25).interface('/interface').param('check: it out').done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('with result', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "myApp",
+          "totype": "25",
+          "interface": "/interface",
+          "param": "foo=bar&abc=baz",
+          "result": "{\"foo\":\"bar\"}"
+        },
+      };
+      var result = Logger().to(25).interface('/interface').param({
+        foo: 'bar',
+        abc: 'baz'
+      }).result({foo: "bar"}).done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
     });
