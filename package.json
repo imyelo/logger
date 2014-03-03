@@ -1,7 +1,7 @@
 {
   "name": "myseat-logger",
   "author": "yelo",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "dependencies": {
     "moment": "~2.5.1",
     "lodash": "~2.4.1",
