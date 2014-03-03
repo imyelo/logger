@@ -40,7 +40,7 @@ describe('base', function () {
         "@source": "192.168.999.999",
         "@fields": {
           "fromtype": "myApp",
-          "totype": 25,
+          "totype": "25",
           "interface": "/interface",
           "param": "foo=bar&abc=baz"
         },
