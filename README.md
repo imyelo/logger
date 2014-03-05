@@ -7,6 +7,20 @@ a chainable node.js logger module for internal system
 npm install myseat-logger
 ````
 
+## Get Started
+````
+var myseatLogger = require('myseat-logger');
+myseatLogger.config({
+  filePath: '/path/to/file.log',
+  device: 'myNewApp'
+});
+var Logger = myseatLogger.Logger;
+var logger = new Logger();
+logger.to(25);
+logger.interface('/internal');
+logger.done();
+````
+
 ## Example
 ### simple
 code:
