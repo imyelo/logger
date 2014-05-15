@@ -48,6 +48,12 @@ the logs will be sent to this file
 ### config.device
 it is the current device name, which is the default value for ``to``/``from``
 
+### config.prefix
+prefix of interface
+
+### config.maxlength
+maxlength of each field
+
 ## API
 ### Logger
 todo

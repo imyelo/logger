@@ -56,11 +56,11 @@ describe('base', function () {
         "@fields": {
           "fromtype": "myApp",
           "totype": "25",
-          "interface": "/interface",
-          "param": "foo=bar&abc=baz"
+          "interface": "myapp_interface",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}"
         },
       };
-      var result = Logger().to(25).interface('/interface').param({
+      var result = Logger().to(25).interface('interface').param({
         foo: 'bar',
         abc: 'baz'
       }).done();
@@ -76,11 +76,11 @@ describe('base', function () {
         "@fields": {
           "fromtype": "myApp",
           "totype": "25",
-          "interface": "/interface",
+          "interface": "myapp_interface",
           "param": "check: it out"
         },
       };
-      var result = Logger().to(25).interface('/interface').param('check: it out').done();
+      var result = Logger().to(25).interface('interface').param('check: it out').done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
     });
@@ -93,17 +93,95 @@ describe('base', function () {
         "@fields": {
           "fromtype": "myApp",
           "totype": "25",
-          "interface": "/interface",
-          "param": "foo=bar&abc=baz",
+          "interface": "myapp_interface",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "result": "{\"foo\":\"bar\"}"
         },
       };
-      var result = Logger().to(25).interface('/interface').param({
+      var result = Logger().to(25).interface('interface').param({
         foo: 'bar',
         abc: 'baz'
       }).result({foo: "bar"}).done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('stander', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "test",
+          "totype": "25",
+          "interface": "test_interface",
+          "body": "body",
+          "ip": "127.0.0.1",
+          "path": "/path/to",
+          "method": "post",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
+          "query": "{\"a\":\"b\"}",
+          "result": "{\"foo\":\"bar\"}"
+        },
+      };
+      var result;
+      log.config({
+        device: 'test',
+        prefix: 'test_'
+      });
+      result = Logger()
+          .to(25)
+          .interface('interface')
+          .ip('127.0.0.1')
+          .path('/path/to')
+          .method('post')
+          .param({
+            foo: 'bar',
+            abc: 'baz'
+          })
+          .query({
+            a: 'b'
+          })
+          .body('body')
+          .result({foo: "bar"})
+          .done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('over maxlength', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var body = (function () {
+        var result = '';
+        for (var i = 0, len = 150; i < len; i++) {
+          result += 'n';
+        }
+        return result;
+      })();
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "test",
+          "totype": "25",
+          "interface": "test_interface",
+          "body": '< LARGE DATA >' + body.slice(0, 100 - 14)
+        },
+      };
+      var result;
+      log.config({
+        device: 'test',
+        prefix: 'test_',
+        maxlength: 100
+      });
+      result = Logger()
+          .to(25)
+          .interface('interface')
+          .body(body)
+          .done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+      expect(JSON.parse(result.content)['@fields']['body'].length).to.be.equal(100);
     });
   });
 });
