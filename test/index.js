@@ -8,6 +8,153 @@ var log = require('../');
 var utils = require('../lib/utils');
 
 describe('base', function () {
+  describe('param', function () {
+    before(function () {
+      muk(mkdirp, 'sync', function (){});
+      muk(fs, 'createWriteStream', function (path) {
+        return {
+          write: function (content) {
+            console.log('muk');
+            return {
+              content: content,
+              path: path
+            };
+          }
+        };
+      });
+      muk(utils, 'getIP', function () {
+        return '192.168.999.999';
+      });
+      muk(Date, 'now', function () {
+        return 1393810654681;
+      });
+    });
+    after(function () {
+      muk.restore();
+    });
+    describe('log error', function () {
+      it('Error Object', function () {
+        var Logger = log.Logger;
+        var dir = path.join(__dirname, '../lib/log/production.log');
+        var content = {
+          "@timestamp":"2014-03-03T09:37:34+08:00",
+          "@source": "192.168.999.999",
+          "@fields": {
+            "fromtype": "myApp",
+            "totype": "25",
+            "interface": "myapp_interface",
+            "errorMessage": "Error: abc",
+            "errorType": "-1"
+          },
+        };
+        var result;
+        result = Logger()
+            .to(25)
+            .interface('interface')
+            .error(new Error('abc'))
+            .done();
+        expect(result.path).to.be.deep.equal(dir);
+        expect(JSON.parse(result.content)).to.be.deep.equal(content);
+      });
+      it('Error Object with code', function () {
+        var Logger = log.Logger;
+        var dir = path.join(__dirname, '../lib/log/production.log');
+        var content = {
+          "@timestamp":"2014-03-03T09:37:34+08:00",
+          "@source": "192.168.999.999",
+          "@fields": {
+            "fromtype": "myApp",
+            "totype": "25",
+            "interface": "myapp_interface",
+            "errorMessage": "Error: abc",
+            "errorType": "-4310"
+          },
+        };
+        var result;
+        result = Logger()
+            .to(25)
+            .interface('interface')
+            .error(new Error('abc'), -4310)
+            .done();
+        expect(result.path).to.be.deep.equal(dir);
+        expect(JSON.parse(result.content)).to.be.deep.equal(content);
+      });
+      it('message', function () {
+        var Logger = log.Logger;
+        var dir = path.join(__dirname, '../lib/log/production.log');
+        var content = {
+          "@timestamp":"2014-03-03T09:37:34+08:00",
+          "@source": "192.168.999.999",
+          "@fields": {
+            "fromtype": "myApp",
+            "totype": "25",
+            "interface": "myapp_interface",
+            "errorMessage": "abc",
+            "errorType": "-1"
+          },
+        };
+        var result;
+        result = Logger()
+            .to(25)
+            .interface('interface')
+            .error('abc')
+            .done();
+        expect(result.path).to.be.deep.equal(dir);
+        expect(JSON.parse(result.content)).to.be.deep.equal(content);
+      });
+      it('message with code', function () {
+        var Logger = log.Logger;
+        var dir = path.join(__dirname, '../lib/log/production.log');
+        var content = {
+          "@timestamp":"2014-03-03T09:37:34+08:00",
+          "@source": "192.168.999.999",
+          "@fields": {
+            "fromtype": "myApp",
+            "totype": "25",
+            "interface": "myapp_interface",
+            "errorMessage": "abc",
+            "errorType": "-4310"
+          },
+        };
+        var result;
+        result = Logger()
+            .to(25)
+            .interface('interface')
+            .error('abc', -4310)
+            .done();
+        expect(result.path).to.be.deep.equal(dir);
+        expect(JSON.parse(result.content)).to.be.deep.equal(content);
+      });
+      it('custom Error Object', function () {
+        var Logger = log.Logger;
+        var dir = path.join(__dirname, '../lib/log/production.log');
+        var content = {
+          "@timestamp":"2014-03-03T09:37:34+08:00",
+          "@source": "192.168.999.999",
+          "@fields": {
+            "fromtype": "myApp",
+            "totype": "25",
+            "interface": "myapp_interface",
+            "errorMessage": "CustomError: foobar",
+            "errorType": "-1"
+          },
+        };
+        var CustomError = function (message) {
+          this.name = 'CustomError';
+          this.message = message || '';
+        };
+        CustomError.prototype = Error.prototype;
+        var result;
+        result = Logger()
+            .to(25)
+            .interface('interface')
+            .error(new CustomError('foobar'))
+            .done();
+        expect(result.path).to.be.deep.equal(dir);
+        expect(JSON.parse(result.content)).to.be.deep.equal(content);
+      });
+    });
+  });
   describe('case', function () {
     before(function () {
       muk(mkdirp, 'sync', function (){});
