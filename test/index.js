@@ -41,10 +41,10 @@ describe('base', function () {
           "@source": "192.168.999.999",
           "@fields": {
             "fromtype": "myApp",
-            "totype": "25",
+            "totype": 25,
             "interface": "myapp_interface",
             "errorMessage": "Error: abc",
-            "errorType": "-1"
+            "errorType": -1
           },
         };
         var result;
@@ -64,10 +64,10 @@ describe('base', function () {
           "@source": "192.168.999.999",
           "@fields": {
             "fromtype": "myApp",
-            "totype": "25",
+            "totype": 25,
             "interface": "myapp_interface",
             "errorMessage": "Error: abc",
-            "errorType": "-4310"
+            "errorType": -4310
           },
         };
         var result;
@@ -87,10 +87,10 @@ describe('base', function () {
           "@source": "192.168.999.999",
           "@fields": {
             "fromtype": "myApp",
-            "totype": "25",
+            "totype": 25,
             "interface": "myapp_interface",
             "errorMessage": "abc",
-            "errorType": "-1"
+            "errorType": -1
           },
         };
         var result;
@@ -110,10 +110,10 @@ describe('base', function () {
           "@source": "192.168.999.999",
           "@fields": {
             "fromtype": "myApp",
-            "totype": "25",
+            "totype": 25,
             "interface": "myapp_interface",
             "errorMessage": "abc",
-            "errorType": "-4310"
+            "errorType": -4310
           },
         };
         var result;
@@ -133,10 +133,10 @@ describe('base', function () {
           "@source": "192.168.999.999",
           "@fields": {
             "fromtype": "myApp",
-            "totype": "25",
+            "totype": 25,
             "interface": "myapp_interface",
             "errorMessage": "CustomError: foobar",
-            "errorType": "-1"
+            "errorType": -1
           },
         };
         var CustomError = function (message) {
@@ -202,7 +202,7 @@ describe('base', function () {
         "@source": "192.168.999.999",
         "@fields": {
           "fromtype": "myApp",
-          "totype": "25",
+          "totype": 25,
           "interface": "myapp_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}"
         },
@@ -222,7 +222,7 @@ describe('base', function () {
         "@source": "192.168.999.999",
         "@fields": {
           "fromtype": "myApp",
-          "totype": "25",
+          "totype": 25,
           "interface": "myapp_interface",
           "param": "check: it out"
         },
@@ -239,7 +239,7 @@ describe('base', function () {
         "@source": "192.168.999.999",
         "@fields": {
           "fromtype": "myApp",
-          "totype": "25",
+          "totype": 25,
           "interface": "myapp_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "result": "{\"foo\":\"bar\"}"
@@ -260,7 +260,7 @@ describe('base', function () {
         "@source": "192.168.999.999",
         "@fields": {
           "fromtype": "test",
-          "totype": "25",
+          "totype": 25,
           "interface": "test_interface",
           "body": "body",
           "ip": "127.0.0.1",
@@ -310,7 +310,7 @@ describe('base', function () {
         "@source": "192.168.999.999",
         "@fields": {
           "fromtype": "test",
-          "totype": "25",
+          "totype": 25,
           "interface": "test_interface",
           "body": '< LARGE DATA >' + body.slice(0, 100 - 14)
         },
