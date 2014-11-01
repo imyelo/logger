@@ -2,6 +2,8 @@ myseat-logger
 ======
 a chainable node.js logger module for internal system
 
+this project will be deprecated. see [maizuo-fe/node-mog](https://github.com/maizuo-fe/node-mog).
+
 ## Install
 ````
 npm install myseat-logger
