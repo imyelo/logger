@@ -421,4 +421,93 @@ describe('base', function () {
       expect(JSON.parse(result.content)['@fields']['body'].length).to.be.equal(100);
     });
   });
+  describe('config.processTime=true', function () {
+    before(function () {
+      muk(mkdirp, 'sync', function (){});
+      muk(fs, 'createWriteStream', function (path) {
+        return {
+          write: function (content) {
+            console.log('muk');
+            return {
+              content: content,
+              path: path
+            };
+          }
+        };
+      });
+      muk(utils, 'getIP', function () {
+        return '192.168.999.999';
+      });
+      muk(Date, 'now', function () {
+        return 1393810654681;
+      });
+      muk(process, 'hrtime', function () {
+        if (arguments.length > 0) {
+          return [3, 11157579];
+        }
+        return [387338, 803038232];
+      });
+    });
+    after(function () {
+      muk.restore();
+    });
+    it('with startAt and without processTime', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "test",
+          "totype": "25",
+          "system": "test",
+          "interface": "test_interface",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
+          "result": "{\"foo\":\"bar\"}",
+          "processTime": "3011.158"
+        },
+      };
+      var result;
+      log.config({
+        device: 'test',
+        prefix: 'test_',
+        processTime: true
+      });
+      result = Logger().startAt(process.hrtime()).to(25).interface('interface').param({
+        foo: 'bar',
+        abc: 'baz'
+      }).result({foo: "bar"}).done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('without startAt and processTime', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "test",
+          "totype": "25",
+          "system": "test",
+          "interface": "test_interface",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
+          "result": "{\"foo\":\"bar\"}",
+          "processTime": "3011.158"
+        },
+      };
+      var result;
+      log.config({
+        device: 'test',
+        prefix: 'test_',
+        processTime: true
+      });
+      result = Logger().to(25).interface('interface').param({
+        foo: 'bar',
+        abc: 'baz'
+      }).result({foo: "bar"}).done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+  });
 });
