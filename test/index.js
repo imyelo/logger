@@ -180,6 +180,12 @@ describe('base', function () {
       muk(Date, 'now', function () {
         return 1393810654681;
       });
+      muk(process, 'hrtime', function () {
+        if (arguments.length > 0) {
+          return [3, 11157579];
+        }
+        return [387338, 803038232];
+      });
     });
     after(function () {
       muk.restore();
@@ -261,6 +267,76 @@ describe('base', function () {
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
     });
+    it('with processTime(Number time)', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "myApp",
+          "totype": "25",
+          "system": "myApp",
+          "interface": "myapp_interface",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
+          "result": "{\"foo\":\"bar\"}",
+          "processTime": "3000"
+        },
+      };
+      var result = Logger().to(25).interface('interface').param({
+        foo: 'bar',
+        abc: 'baz'
+      }).result({foo: "bar"}).processTime(3000).done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('with processTime(String time)', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "myApp",
+          "totype": "25",
+          "system": "myApp",
+          "interface": "myapp_interface",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
+          "result": "{\"foo\":\"bar\"}",
+          "processTime": "3000"
+        },
+      };
+      var result = Logger().to(25).interface('interface').param({
+        foo: 'bar',
+        abc: 'baz'
+      }).result({foo: "bar"}).processTime('3000').done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
+    it('with processTime(Array startAt)', function () {
+      var Logger = log.Logger;
+      var dir = path.join(__dirname, '../lib/log/production.log');
+      var content = {
+        "@timestamp":"2014-03-03T09:37:34+08:00",
+        "@source": "192.168.999.999",
+        "@fields": {
+          "fromtype": "myApp",
+          "totype": "25",
+          "system": "myApp",
+          "interface": "myapp_interface",
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
+          "result": "{\"foo\":\"bar\"}",
+          "processTime": "3011.158"
+        },
+      };
+      var startAt = process.hrtime();
+      var result = Logger().to(25).interface('interface').param({
+        foo: 'bar',
+        abc: 'baz'
+      }).result({foo: "bar"}).processTime(startAt).done();
+      expect(result.path).to.be.deep.equal(dir);
+      expect(JSON.parse(result.content)).to.be.deep.equal(content);
+    });
     it('stander', function () {
       var Logger = log.Logger;
       var dir = path.join(__dirname, '../lib/log/production.log');
@@ -278,10 +354,12 @@ describe('base', function () {
           "method": "post",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "query": "{\"a\":\"b\"}",
-          "result": "{\"foo\":\"bar\"}"
+          "result": "{\"foo\":\"bar\"}",
+          "processTime": "3011.158"
         },
       };
       var result;
+      var startAt = process.hrtime();
       log.config({
         device: 'test',
         prefix: 'test_'
@@ -301,6 +379,7 @@ describe('base', function () {
           })
           .body('body')
           .result({foo: "bar"})
+          .processTime(startAt)
           .done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
