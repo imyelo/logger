@@ -2,7 +2,7 @@
   "name": "myseat-logger",
   "description": "a chainable node.js logger module for internal system",
   "author": "yelo",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/maizuo-fe/myseat-logger.git"
