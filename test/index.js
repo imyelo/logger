@@ -45,12 +45,13 @@ describe('base', function () {
             "system": "myApp",
             "interface": "myapp_interface",
             "errorMessage": "Error: abc",
-            "errorType": "-1"
+            "errorType": -1,
+            "processTime": 0
           },
         };
         var result;
         result = Logger()
-            .to(25)
+            .to('25')
             .interface('interface')
             .error(new Error('abc'))
             .done();
@@ -69,12 +70,13 @@ describe('base', function () {
             "system": "myApp",
             "interface": "myapp_interface",
             "errorMessage": "Error: abc",
-            "errorType": "-4310"
+            "errorType": -4310,
+            "processTime": 0
           },
         };
         var result;
         result = Logger()
-            .to(25)
+            .to('25')
             .interface('interface')
             .error(new Error('abc'), -4310)
             .done();
@@ -93,12 +95,13 @@ describe('base', function () {
             "system": "myApp",
             "interface": "myapp_interface",
             "errorMessage": "abc",
-            "errorType": "-1"
+            "errorType": -1,
+            "processTime": 0
           },
         };
         var result;
         result = Logger()
-            .to(25)
+            .to('25')
             .interface('interface')
             .error('abc')
             .done();
@@ -117,12 +120,13 @@ describe('base', function () {
             "system": "myApp",
             "interface": "myapp_interface",
             "errorMessage": "abc",
-            "errorType": "-4310"
+            "errorType": -4310,
+            "processTime": 0
           },
         };
         var result;
         result = Logger()
-            .to(25)
+            .to('25')
             .interface('interface')
             .error('abc', -4310)
             .done();
@@ -141,7 +145,8 @@ describe('base', function () {
             "system": "myApp",
             "interface": "myapp_interface",
             "errorMessage": "CustomError: foobar",
-            "errorType": "-1"
+            "errorType": -1,
+            "processTime": 0
           },
         };
         var CustomError = function (message) {
@@ -151,7 +156,7 @@ describe('base', function () {
         CustomError.prototype = Error.prototype;
         var result;
         result = Logger()
-            .to(25)
+            .to('25')
             .interface('interface')
             .error(new CustomError('foobar'))
             .done();
@@ -199,7 +204,8 @@ describe('base', function () {
         "@fields": {
           "fromtype": "myApp",
           "totype": "myApp",
-            "system": "myApp"
+          "system": "myApp",
+          "processTime": 0
         },
       };
       var result = Logger().done();
@@ -217,10 +223,11 @@ describe('base', function () {
           "totype": "25",
           "system": "myApp",
           "interface": "myapp_interface",
-          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}"
+          "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
+          "processTime": 0
         },
       };
-      var result = Logger().to(25).interface('interface').param({
+      var result = Logger().to('25').interface('interface').param({
         foo: 'bar',
         abc: 'baz'
       }).done();
@@ -238,10 +245,11 @@ describe('base', function () {
           "totype": "25",
           "system": "myApp",
           "interface": "myapp_interface",
-          "param": "check: it out"
+          "param": "check: it out",
+          "processTime": 0
         },
       };
-      var result = Logger().to(25).interface('interface').param('check: it out').done();
+      var result = Logger().to('25').interface('interface').param('check: it out').done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
     });
@@ -257,10 +265,11 @@ describe('base', function () {
           "system": "myApp",
           "interface": "myapp_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
-          "result": "{\"foo\":\"bar\"}"
+          "result": "{\"foo\":\"bar\"}",
+          "processTime": 0
         },
       };
-      var result = Logger().to(25).interface('interface').param({
+      var result = Logger().to('25').interface('interface').param({
         foo: 'bar',
         abc: 'baz'
       }).result({foo: "bar"}).done();
@@ -280,13 +289,13 @@ describe('base', function () {
           "interface": "myapp_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "result": "{\"foo\":\"bar\"}",
-          "processTime": "3000"
+          "processTime": 3000
         },
       };
-      var result = Logger().to(25).interface('interface').param({
+      var result = Logger().to('25').interface('interface').param({
         foo: 'bar',
         abc: 'baz'
-      }).result({foo: "bar"}).processTime(3000).done();
+      }).result({foo: "bar"}).processTime(3000.131).done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
     });
@@ -303,13 +312,13 @@ describe('base', function () {
           "interface": "myapp_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "result": "{\"foo\":\"bar\"}",
-          "processTime": "3000"
+          "processTime": 3000
         },
       };
-      var result = Logger().to(25).interface('interface').param({
+      var result = Logger().to('25').interface('interface').param({
         foo: 'bar',
         abc: 'baz'
-      }).result({foo: "bar"}).processTime('3000').done();
+      }).result({foo: "bar"}).processTime('3000.131').done();
       expect(result.path).to.be.deep.equal(dir);
       expect(JSON.parse(result.content)).to.be.deep.equal(content);
     });
@@ -326,11 +335,11 @@ describe('base', function () {
           "interface": "myapp_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "result": "{\"foo\":\"bar\"}",
-          "processTime": "3011.158"
+          "processTime": 3011
         },
       };
       var startAt = process.hrtime();
-      var result = Logger().to(25).interface('interface').param({
+      var result = Logger().to('25').interface('interface').param({
         foo: 'bar',
         abc: 'baz'
       }).result({foo: "bar"}).processTime(startAt).done();
@@ -355,7 +364,7 @@ describe('base', function () {
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "query": "{\"a\":\"b\"}",
           "result": "{\"foo\":\"bar\"}",
-          "processTime": "3011.158"
+          "processTime": 3011
         },
       };
       var result;
@@ -365,7 +374,7 @@ describe('base', function () {
         prefix: 'test_'
       });
       result = Logger()
-          .to(25)
+          .to('25')
           .interface('interface')
           .ip('127.0.0.1')
           .path('/path/to')
@@ -402,7 +411,8 @@ describe('base', function () {
           "totype": "25",
           "system": "test",
           "interface": "test_interface",
-          "body": '< LARGE DATA >' + body.slice(0, 100 - 14)
+          "body": '< LARGE DATA >' + body.slice(0, 100 - 14),
+          "processTime": 0
         },
       };
       var result;
@@ -412,7 +422,7 @@ describe('base', function () {
         maxlength: 100
       });
       result = Logger()
-          .to(25)
+          .to('25')
           .interface('interface')
           .body(body)
           .done();
@@ -464,7 +474,7 @@ describe('base', function () {
           "interface": "test_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "result": "{\"foo\":\"bar\"}",
-          "processTime": "3011.158"
+          "processTime": 3011
         },
       };
       var result;
@@ -473,7 +483,7 @@ describe('base', function () {
         prefix: 'test_',
         processTime: true
       });
-      result = Logger().startAt(process.hrtime()).to(25).interface('interface').param({
+      result = Logger().startAt(process.hrtime()).to('25').interface('interface').param({
         foo: 'bar',
         abc: 'baz'
       }).result({foo: "bar"}).done();
@@ -493,7 +503,7 @@ describe('base', function () {
           "interface": "test_interface",
           "param": "{\"foo\":\"bar\",\"abc\":\"baz\"}",
           "result": "{\"foo\":\"bar\"}",
-          "processTime": "3011.158"
+          "processTime": 3011
         },
       };
       var result;
@@ -502,7 +512,7 @@ describe('base', function () {
         prefix: 'test_',
         processTime: true
       });
-      result = Logger().to(25).interface('interface').param({
+      result = Logger().to('25').interface('interface').param({
         foo: 'bar',
         abc: 'baz'
       }).result({foo: "bar"}).done();
